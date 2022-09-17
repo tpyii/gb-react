@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Message from './Message';
 
 function App() {
+  const [messageList, setMessageList] = useState([])
   const name = 'Петр'
   return (
     <div className="App">
