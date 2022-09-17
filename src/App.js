@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Message from './Message';
@@ -11,19 +11,33 @@ function App() {
   const handleSubmit = event => {
     event.preventDefault()
     if (!text.trim().length) return
+    addMessage({
+      author: 'Guest',
+      text
+    })
+    setText('')
+  }
+  const addMessage = ({ author, text }) => {
     const date = new Date()
     const message = {
       id: date.getTime(),
       date: date.toLocaleString(),
-      author: 'Guest',
+      author,
       text: text.trim()
     }
     setMessageList([
       ...messageList,
       message
     ])
-    setText('')
   }
+  useEffect(() => {
+    if (!messageList.length) return
+    if (messageList[messageList.length - 1]?.author === 'Bot') return
+    addMessage({
+      author: 'Bot',
+      text: 'Thank you for message!'
+    })
+  }, [messageList])
   return (
     <div className="App">
       <header className="App-header">
