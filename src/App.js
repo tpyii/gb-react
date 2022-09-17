@@ -33,10 +33,14 @@ function App() {
   useEffect(() => {
     if (!messageList.length) return
     if (messageList[messageList.length - 1]?.author === 'Bot') return
-    addMessage({
-      author: 'Bot',
-      text: 'Thank you for message!'
-    })
+    const timer = setTimeout(() => {
+      addMessage({
+        author: 'Bot',
+        text: 'Thank you for message!'
+      })
+    }, 1500)
+
+    return () => clearTimeout(timer)
   }, [messageList])
   return (
     <div className="App">
