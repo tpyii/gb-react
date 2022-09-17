@@ -22,6 +22,13 @@ function App() {
         >
           Learn React
         </a>
+        <ul>
+          {messageList.map(item => (
+            <li key={item.id}>
+              <p>{item.author}: {item.text}</p>
+            </li>
+          ))}
+        </ul>
       </header>
     </div>
   );
