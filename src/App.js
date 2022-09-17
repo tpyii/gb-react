@@ -5,7 +5,25 @@ import Message from './Message';
 
 function App() {
   const [messageList, setMessageList] = useState([])
+  const [text, setText] = useState('')
   const name = 'Петр'
+  const handleChange = event => setText(event.target.value)
+  const handleSubmit = event => {
+    event.preventDefault()
+    if (!text.trim().length) return
+    const date = new Date()
+    const message = {
+      id: date.getTime(),
+      date: date.toLocaleString(),
+      author: 'Guest',
+      text: text.trim()
+    }
+    setMessageList([
+      ...messageList,
+      message
+    ])
+    setText('')
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -22,6 +40,20 @@ function App() {
         >
           Learn React
         </a>
+        <form onSubmit={handleSubmit}>
+          <fieldset>
+            <legend>Write your message</legend>
+            <input 
+              name="text" 
+              value={text} 
+              onChange={handleChange}
+            />
+            <input 
+              type="submit"
+              disabled={!text.trim().length}
+            />
+          </fieldset>
+        </form>
         <ul>
           {messageList.map(item => (
             <li key={item.id}>
