@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Message from './Message';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 function App() {
   const [messageList, setMessageList] = useState([])
@@ -58,20 +61,27 @@ function App() {
         >
           Learn React
         </a>
-        <form onSubmit={handleSubmit}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+        >
           <fieldset>
             <legend>Write your message</legend>
-            <input 
-              name="text" 
+            <TextField 
+              variant="outlined"
+              size="small"
               value={text} 
               onChange={handleChange}
             />
-            <input 
+            <Button 
+              variant="contained"
               type="submit"
               disabled={!text.trim().length}
-            />
+            >
+              Отправить
+            </Button>
           </fieldset>
-        </form>
+        </Box>
         <ul>
           {messageList.map(item => (
             <li key={item.id}>
