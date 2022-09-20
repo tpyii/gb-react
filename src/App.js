@@ -72,6 +72,7 @@ function App() {
               size="small"
               value={text} 
               onChange={handleChange}
+              autoFocus={true}
             />
             <Button 
               variant="contained"
