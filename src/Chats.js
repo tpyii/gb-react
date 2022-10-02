@@ -9,9 +9,20 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 
+const initialChat = {
+  id1: {
+    name: 'Chat1',
+    messages: [{ id: 1664703829921, date: '02.10.2022', text: 'Hello!', author: 'Guest' }],
+  },
+  id2: {
+    name: 'Chat2',
+    messages: [{ id: 1664703839205, date: '02.10.2022', text: 'Thank you for message!', author: 'Bot' }],
+  },
+}
+
 function Chats() {
   const [messageList, setMessageList] = useState([])
-  const [chatList, setChatList] = useState([...Array(10).keys()])
+  const [chatList, setChatList] = useState(initialChat)
   const [text, setText] = useState('')
   let { chatId } = useParams();
 
@@ -65,11 +76,11 @@ function Chats() {
       <Grid item xs={12} md={4}>
         <Box>
           <List>
-            {chatList.map(item => (
-              <ListItem disablePadding key={item}>
+            {Object.keys(chatList).map(item => (
+              <ListItem disablePadding key={chatList[item].name}>
                 <Link to={`/chats/${item}`}>
                   <ListItemButton>
-                    <ListItemText primary={`Chat ${item}`} />
+                    <ListItemText primary={chatList[item].name} />
                   </ListItemButton>
                 </Link>
               </ListItem>

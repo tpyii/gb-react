@@ -19,7 +19,7 @@ function App() {
           Learn React
         </a>
           <Link 
-            to={`chats/0`} 
+            to={`chats/id1`} 
             className="App-link"
           >
             Chats
