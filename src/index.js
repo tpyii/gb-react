@@ -12,20 +12,24 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { MyThemeContext } from "./context";
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <Error />,
-  },
-  {
-    path: "/about",
-    element: <About />,
-  },
-  {
-    path: "/chats/:chatId",
-    element: <Chats />,
+    children: [
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/chats/:chatId",
+        element: <Chats />,
+      },
+    ],
   },
 ]);
 
@@ -38,10 +42,12 @@ const darkTheme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <MyThemeContext.Provider value={{ theme: "dark" }}>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </MyThemeContext.Provider>
   </React.StrictMode>
 );
 

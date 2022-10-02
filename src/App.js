@@ -1,36 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
+import { useContext } from 'react';
+import { MyThemeContext } from './context';
 
 function App() {
+  const context = useContext(MyThemeContext)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-          <Link 
-            to={`chats/id1`} 
-            className="App-link"
-          >
-            Chats
-          </Link>
-          <Link 
-            to={`about`} 
-            className="App-link"
-          >
-            About
-          </Link>
+      <header>
+        <ul>
+          <li><Link to={`/`}>Main</Link></li>
+          <li><Link to={`chats/id1`}>Chats</Link></li>
+          <li><Link to={`about`}>About</Link></li>
+        </ul>
+        Theme: {context.theme}
       </header>
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 }
