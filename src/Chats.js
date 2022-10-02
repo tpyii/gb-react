@@ -21,7 +21,6 @@ const initialChat = {
 }
 
 function Chats() {
-  const [messageList, setMessageList] = useState([])
   const [chatList, setChatList] = useState(initialChat)
   const [text, setText] = useState('')
   let { chatId } = useParams();
@@ -48,18 +47,17 @@ function Chats() {
       date: date.toLocaleString(),
       author,
       text: text.trim(),
-      chatId,
     }
 
-    setMessageList([
-      ...messageList,
-      message
-    ])
+    setChatList({
+      ...chatList,
+      ...chatList[chatId].messages.push(message),
+    })
   }
 
   useEffect(() => {
-    if (!messageList.length) return
-    if (messageList[messageList.length - 1]?.author === 'Bot') return
+    if (!chatList[chatId].messages.length) return
+    if (chatList[chatId].messages[chatList[chatId].messages.length - 1]?.author === 'Bot') return
 
     const timer = setTimeout(() => {
       addMessage({
@@ -69,7 +67,7 @@ function Chats() {
     }, 1500)
 
     return () => clearTimeout(timer)
-  }, [messageList])
+  }, [chatList])
 
   return (
     <Grid container spacing={2}>
@@ -107,12 +105,10 @@ function Chats() {
           }}
         >
           <ul>
-            {messageList
-              .filter(item => item.chatId === chatId)
-              .map(item => (
-                <li key={item.id}>
-                  <p>{item.author}: {item.text}</p>
-                </li>
+            {chatList[chatId].messages.map(item => (
+              <li key={item.id}>
+                <p>{item.author}: {item.text}</p>
+              </li>
             ))}
           </ul>
         </Box>
