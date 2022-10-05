@@ -2,9 +2,38 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import About from './About';
+import Chats from './Chats';
+import Error from './Error';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import { MyThemeContext } from "./context";
+import store from './store'
+import { Provider } from 'react-redux'
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/chats/:chatId",
+        element: <Chats />,
+      },
+    ],
+  },
+]);
 
 const darkTheme = createTheme({
   palette: {
@@ -15,10 +44,14 @@ const darkTheme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
+    <Provider store={store}>
+      <MyThemeContext.Provider value={{ theme: "dark" }}>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </MyThemeContext.Provider>
+    </Provider>
   </React.StrictMode>
 );
 
