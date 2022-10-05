@@ -13,6 +13,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { MyThemeContext } from "./context";
+import store from './app/store'
+import { Provider } from 'react-redux'
 
 
 const router = createBrowserRouter([
@@ -42,12 +44,14 @@ const darkTheme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MyThemeContext.Provider value={{ theme: "dark" }}>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </MyThemeContext.Provider>
+    <Provider store={store}>
+      <MyThemeContext.Provider value={{ theme: "dark" }}>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </MyThemeContext.Provider>
+    </Provider>
   </React.StrictMode>
 );
 
