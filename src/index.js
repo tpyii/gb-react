@@ -13,7 +13,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { MyThemeContext } from "./context";
-import store from './app/store'
+import store from './store'
 import { Provider } from 'react-redux'
 
 

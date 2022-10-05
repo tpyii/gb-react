@@ -8,22 +8,15 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
-
-const initialChat = {
-  id1: {
-    name: 'Chat1',
-    messages: [{ id: 1664703829921, date: '02.10.2022', text: 'Hello!', author: 'Guest' }],
-  },
-  id2: {
-    name: 'Chat2',
-    messages: [{ id: 1664703839205, date: '02.10.2022', text: 'Thank you for message!', author: 'Bot' }],
-  },
-}
+import { useSelector, useDispatch } from 'react-redux';
+import { messageAdded } from './features/messages/messagesSlice';
 
 function Chats() {
-  const [chatList, setChatList] = useState(initialChat)
   const [text, setText] = useState('')
   let { chatId } = useParams();
+  const chats = useSelector((state) => state.chats);
+  const messages = useSelector((state) => state.messages);
+  const dispatch = useDispatch();
 
   const handleChange = event => setText(event.target.value)
 
@@ -32,53 +25,40 @@ function Chats() {
 
     if (!text.trim().length) return
 
-    addMessage({
+    dispatch(messageAdded({
+      chatId,
       author: 'Guest',
-      text
-    })
+      text,
+    }))
     
     setText('')
   }
 
-  const addMessage = ({ author, text }) => {
-    const date = new Date()
-    const message = {
-      id: date.getTime(),
-      date: date.toLocaleString(),
-      author,
-      text: text.trim(),
-    }
-
-    setChatList({
-      ...chatList,
-      ...chatList[chatId].messages.push(message),
-    })
-  }
-
   useEffect(() => {
-    if (!chatList[chatId].messages.length) return
-    if (chatList[chatId].messages[chatList[chatId].messages.length - 1]?.author === 'Bot') return
+    if (!messages.length) return
+    if (messages[messages.length - 1]?.author === 'Bot') return
 
     const timer = setTimeout(() => {
-      addMessage({
+      dispatch(messageAdded({
+        chatId,
         author: 'Bot',
         text: 'Thank you for message!'
-      })
+      }))
     }, 1500)
 
     return () => clearTimeout(timer)
-  }, [chatList])
+  }, [messages])
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={4}>
         <Box>
           <List>
-            {Object.keys(chatList).map(item => (
-              <ListItem disablePadding key={chatList[item].name}>
-                <Link to={`/chats/${item}`}>
+            {chats.map(item => (
+              <ListItem disablePadding key={item.name}>
+                <Link to={`/chats/${item.id}`}>
                   <ListItemButton>
-                    <ListItemText primary={chatList[item].name} />
+                    <ListItemText primary={item.name} />
                   </ListItemButton>
                 </Link>
               </ListItem>
@@ -105,10 +85,12 @@ function Chats() {
           }}
         >
           <ul>
-            {chatList[chatId].messages.map(item => (
-              <li key={item.id}>
-                <p>{item.author}: {item.text}</p>
-              </li>
+            {messages
+              .filter(item => item.chatId === chatId)
+              .map(item => (
+                <li key={item.id}>
+                  <p>{item.author}: {item.text}</p>
+                </li>
             ))}
           </ul>
         </Box>
