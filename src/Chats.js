@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -8,47 +6,16 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
-import { useSelector, useDispatch } from 'react-redux';
-import { addMessage } from './features/messages/messagesSlice';
+import { Link } from 'react-router-dom';
 
-function Chats() {
-  const [text, setText] = useState('')
-  let { chatId } = useParams();
-  const chats = useSelector((state) => state.chats);
-  const messages = useSelector((state) => state.messages);
-  const dispatch = useDispatch();
-
-  const handleChange = event => setText(event.target.value)
-
-  const handleSubmit = event => {
-    event.preventDefault()
-
-    if (!text.trim().length) return
-
-    dispatch(addMessage({
-      chatId,
-      author: 'Guest',
-      text,
-    }))
-    
-    setText('')
-  }
-
-  useEffect(() => {
-    if (!messages.length) return
-    if (messages[messages.length - 1]?.author === 'Bot') return
-
-    const timer = setTimeout(() => {
-      dispatch(addMessage({
-        chatId,
-        author: 'Bot',
-        text: 'Thank you for message!'
-      }))
-    }, 1500)
-
-    return () => clearTimeout(timer)
-  }, [messages])
-
+function Chats({
+  chats,
+  messages,
+  chatId,
+  text,
+  handleChange,
+  handleSubmit
+}) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={4}>

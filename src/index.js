@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import About from './About';
-import Chats from './Chats';
+import ChatsContainer from './ChatsContainer';
 import Error from './Error';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/chats/:chatId",
-        element: <Chats />,
+        element: <ChatsContainer />,
       },
     ],
   },
