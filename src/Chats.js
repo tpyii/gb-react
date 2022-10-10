@@ -9,7 +9,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
-import { messageAdded } from './features/messages/messagesSlice';
+import { addMessage } from './features/messages/messagesSlice';
 
 function Chats() {
   const [text, setText] = useState('')
@@ -25,7 +25,7 @@ function Chats() {
 
     if (!text.trim().length) return
 
-    dispatch(messageAdded({
+    dispatch(addMessage({
       chatId,
       author: 'Guest',
       text,
@@ -39,7 +39,7 @@ function Chats() {
     if (messages[messages.length - 1]?.author === 'Bot') return
 
     const timer = setTimeout(() => {
-      dispatch(messageAdded({
+      dispatch(addMessage({
         chatId,
         author: 'Bot',
         text: 'Thank you for message!'

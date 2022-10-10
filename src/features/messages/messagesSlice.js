@@ -1,22 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+export const addMessage = createAsyncThunk(
+  'messages/addMessage',
+  async (message, thunkAPI) => {
+    const date = new Date();
+
+    return {
+      id: date.getTime(),
+      chatId: message.chatId,
+      date: date.toLocaleString(),
+      author: message.author,
+      text: message.text.trim(),
+    }
+  }
+)
 
 const messagesSlice = createSlice({
   name: 'messages',
   initialState: [],
-  reducers: {
-    messageAdded(state, action) {
-      const date = new Date();
-
-      state.push({
-        id: date.getTime(),
-        chatId: action.payload.chatId,
-        date: date.toLocaleString(),
-        author: action.payload.author,
-        text: action.payload.text.trim(),
-      });
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(addMessage.fulfilled, (state, action) => {
+      state.push(action.payload)
+    })
   },
 });
 
-export const { messageAdded } = messagesSlice.actions;
 export default messagesSlice.reducer;
