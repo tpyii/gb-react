@@ -13,8 +13,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { MyThemeContext } from "./context";
-import store from './store'
+import { persistor, store } from './store'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 const router = createBrowserRouter([
@@ -45,12 +46,14 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <MyThemeContext.Provider value={{ theme: "dark" }}>
-        <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </MyThemeContext.Provider>
+      <PersistGate loading={null} persistor={persistor}>
+        <MyThemeContext.Provider value={{ theme: "dark" }}>
+          <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </MyThemeContext.Provider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
