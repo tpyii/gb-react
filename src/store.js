@@ -12,6 +12,7 @@ import {
 } from 'redux-persist'
 import chatsReducer from './features/chats/chatsSlice';
 import messagesReducer from './features/messages/messagesSlice';
+import gistsReducer from './features/gists/gistsSlice';
 
 const persistConfig = {
   key: 'root',
@@ -21,6 +22,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   chats: chatsReducer,
   messages: messagesReducer,
+  gists: gistsReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
