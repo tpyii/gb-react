@@ -8,6 +8,8 @@ function App() {
     <div className="App">
       <header>
         <ul>
+          <li><Link to={`login`}>Login</Link></li>
+          <li><Link to={`signup`}>SignUp</Link></li>
           <li><Link to={`/`}>Main</Link></li>
           <li><Link to={`chats/1`}>Chats</Link></li>
           <li><Link to={`about`}>About</Link></li>
