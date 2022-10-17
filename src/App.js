@@ -11,6 +11,7 @@ function App() {
           <li><Link to={`/`}>Main</Link></li>
           <li><Link to={`chats/1`}>Chats</Link></li>
           <li><Link to={`about`}>About</Link></li>
+          <li><Link to={`gists`}>Gists</Link></li>
         </ul>
         Theme: {context.theme}
       </header>

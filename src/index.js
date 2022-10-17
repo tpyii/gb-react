@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import About from './About';
+import Gists from './Gists';
 import ChatsContainer from './ChatsContainer';
 import Error from './Error';
 import reportWebVitals from './reportWebVitals';
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/chats/:chatId",
         element: <ChatsContainer />,
+      },
+      {
+        path: "/gists",
+        element: <Gists />,
       },
     ],
   },
