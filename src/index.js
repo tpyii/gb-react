@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { RouterProvider } from "react-router-dom";
+import { MyThemeContext } from "./context";
+import { persistor, store } from './store'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react';
+import { router } from './router';
 
 const darkTheme = createTheme({
   palette: {
@@ -15,10 +20,16 @@ const darkTheme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <MyThemeContext.Provider value={{ theme: "dark" }}>
+          <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </MyThemeContext.Provider>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
 
